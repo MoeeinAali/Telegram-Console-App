@@ -28,6 +28,26 @@ public class LoginMenu {
         }
     }
 
+    private String login(Matcher matcher) {
+        matcher.matches();
+        String id = matcher.group("id");
+        String password = matcher.group("password");
+
+        User user = Messenger.getUserById(id);
+
+        if (user == null) {
+            return "No user with this id exists!";
+        }
+        if (!user.getPassword().equals(password)) {
+            return "Incorrect password!";
+        }
+
+        MenuStatus.setMenuStatus(MenuStatus.MESSENGER_MENU);
+        Messenger.setCurrentUser(user);
+
+        return "User successfully logged in!";
+    }
+
     private String register(Matcher matcher) {
         matcher.matches();
         String id = matcher.group("id");
@@ -37,16 +57,19 @@ public class LoginMenu {
         if (!Commands.NAME.getMatcher(username).matches()) {
             return "Username's format is invalid!";
         }
+
         if (password.length() < 8 || password.length() > 32 || !Commands.PASSWORD_DIGIT.getMatcher(password).find() ||
                 !Commands.PASSWORD_CAPITAL_LETTER.getMatcher(password).find() || !Commands.PASSWORD_SMALL_LETTER.getMatcher(password).find() ||
                 !Commands.PASSWORD_SPECIAL_CHARACTER.getMatcher(password).find()) {
             return "Your Password is weak!";
         }
+
         if (Messenger.getUserById(id) != null) {
             return "A user with this ID already exists!";
         }
 
         Messenger.addUser(new User(id, username, password));
+
         return "User has been created successfully!";
     }
 
