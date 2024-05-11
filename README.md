@@ -13,7 +13,7 @@ This Telegram Console App is a simple Java application designed to use Simple Te
 
 ## Preview
 
-![UML Diagram](main.svg)
+![UML Diagram](Main.svg)
 
 ## Description Document
 
