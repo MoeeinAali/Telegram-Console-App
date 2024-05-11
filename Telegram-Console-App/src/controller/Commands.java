@@ -33,7 +33,7 @@ public enum Commands {
     }
 
     public Matcher getMatcher(String input) {
-        Pattern p = Pattern.compile(this.regex);
-        return p.matcher(input);
+        Pattern pattern = Pattern.compile(this.regex);
+        return pattern.matcher(input);
     }
 }
