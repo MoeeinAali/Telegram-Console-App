@@ -39,9 +39,69 @@ public class MessengerMenu {
                 break;
             } else {
                 System.out.println("Invalid command!");
-            } ;
+            }
+            ;
         }
     }
+
+    private String showAllChannels() {
+        int counter = 1;
+        StringBuilder result = new StringBuilder("All channels:");
+        for (Channel channel : Messenger.getChannels()) {
+            result.append("\n")
+                    .append(counter)
+                    .append("- ").append(channel.getName())
+                    .append(", id: ").append(channel.getId())
+                    .append(", members: ")
+                    .append(channel.getMembers().size());
+            counter += 1;
+        }
+        return result.toString();
+    }
+
+    private String joinChannel(Matcher matcher) {
+        matcher.matches();
+        String channelId = matcher.group("id");
+        Channel channel = Messenger.getChannelById(channelId);
+
+        if (channel == null) {
+            return "No channel with this id exists!";
+        }
+        if (channel.getMembers().contains(currentUser)) {
+            return "You are already a member of this channel!";
+        }
+        currentUser.addChannel(channel);
+        channel.addMember(currentUser);
+        return "You have joined the channel successfully !";
+    }
+
+    public MessengerMenu(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    private String createChannel(Matcher matcher) {
+        matcher.matches();
+        String id = matcher.group("id");
+        String name = matcher.group("name");
+
+        if (!Commands.NAME.getMatcher(name).matches()) {
+            return "Channel name's format is invalid!";
+        }
+
+        if (Messenger.getChannelById(id) != null) {
+            return "A channel with this id already exists!";
+        }
+
+        Channel newChannel = new Channel(currentUser, id, name);
+        newChannel.addMember(currentUser);
+        Messenger.addChannel(newChannel);
+        currentUser.addChannel(newChannel);
+        String result = "Channel " + name + " has been created successfully!";
+        return result;
+
+
+    }
+
 
     private String enterChat(Matcher matcher) {
         matcher.matches();
@@ -141,64 +201,5 @@ public class MessengerMenu {
         }
         return result.toString();
     }
-
-    private String joinChannel(Matcher matcher) {
-        matcher.matches();
-        String channelId = matcher.group("id");
-        Channel channel = Messenger.getChannelById(channelId);
-
-        if (channel == null) {
-            return "No channel with this id exists!";
-        }
-        if (channel.getMembers().contains(currentUser)) {
-            return "You are already a member of this channel!";
-        }
-        currentUser.addChannel(channel);
-        channel.addMember(currentUser);
-        return "You have joined the channel successfully !";
-    }
-
-    public MessengerMenu(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    private String createChannel(Matcher matcher) {
-        matcher.matches();
-        String id = matcher.group("id");
-        String name = matcher.group("name");
-
-        if (!Commands.NAME.getMatcher(name).matches()) {
-            return "Channel name's format is invalid!";
-        }
-
-        if (Messenger.getChannelById(id) != null) {
-            return "A channel with this id already exists!";
-        }
-
-        Channel newChannel = new Channel(currentUser, id, name);
-        newChannel.addMember(currentUser);
-        Messenger.addChannel(newChannel);
-        currentUser.addChannel(newChannel);
-        String result = "Channel " + name + " has been created successfully!";
-        return result;
-
-
-    }
-
-    private String showAllChannels() {
-        int counter = 1;
-        StringBuilder result = new StringBuilder("All channels:");
-        for (Channel channel : Messenger.getChannels()) {
-            result.append("\n")
-                    .append(counter)
-                    .append("- ").append(channel.getName())
-                    .append(", id: ").append(channel.getId())
-                    .append(", members: ")
-                    .append(channel.getMembers().size());
-            counter += 1;
-        }
-        return result.toString();
-    }
-
 
 }

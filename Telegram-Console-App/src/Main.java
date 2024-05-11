@@ -1,4 +1,5 @@
 import controller.Messenger;
+import view.ChatMenu;
 import view.LoginMenu;
 import view.MenuStatus;
 import view.MessengerMenu;
