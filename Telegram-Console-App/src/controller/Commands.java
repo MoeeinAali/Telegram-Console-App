@@ -22,8 +22,8 @@ public enum Commands {
     ENTER_CHAT("enter (?<chatType>.+) i (?<id>[\\S]+)"),
     SEND_MESSAGE("send a message c (?<message>.+)"),
     ADD_MEMBER("add member i (?<id>[\\S]+)"),
-    SHOW_MESSAGES("show all messages"),
-    SHOW_MEMBERS("show all members"),
+    SHOW_ALL_MESSAGES("show all messages"),
+    SHOW_ALL_MEMBERS("show all members"),
     BACK("back");
 
     private String regex;
