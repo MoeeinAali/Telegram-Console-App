@@ -5,9 +5,10 @@ import model.*;
 import java.util.ArrayList;
 
 public class Messenger {
+    private static ArrayList<User> users = new ArrayList<User>();
     private static ArrayList<Channel> channels = new ArrayList<Channel>();
     private static ArrayList<Group> groups = new ArrayList<Group>();
-    private static ArrayList<User> users = new ArrayList<User>();
+
     private static User currentUser;
 
     public static void setCurrentUser(User user) {
